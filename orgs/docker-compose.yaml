@@ -1,0 +1,211 @@
+version: "2"
+
+networks:
+  test:
+
+services:
+  # ca-bank1:
+  #   image: hyperledger/fabric-ca
+  #   environment:
+  #     - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+  #     - FABRIC_CA_SERVER_CA_NAME=ca.bank1.barclays.com
+  #     - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.bank1.barclays.com-cert.pem
+  #     - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/priv_sk
+  #     - FABRIC_CA_SERVER_TLS_ENABLED=true
+  #     - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.bank1.barclays.com-cert.pem
+  #     - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/priv_sk
+  #   ports:
+  #     - "7054:7054"
+  #   command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+  #   volumes:
+  #     - ./crypto-config/peerOrganizations/bank1.barclays.com/ca/:/etc/hyperledger/fabric-ca-server-config
+  #     - ./crypto-config/peerOrganizations/bank1.barclays.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+  #   container_name: ca.bank1.barclays.com
+  #   hostname: ca.bank1.barclays.com
+  #   networks:
+  #     - test
+
+
+  couchdb0:
+    container_name: couchdb0
+    image: hyperledger/fabric-couchdb
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - 5984:5984
+    networks:
+      - test
+
+  couchdb1:
+    container_name: couchdb1
+    image: hyperledger/fabric-couchdb
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - 6984:5984
+    networks:
+      - test
+
+  peer0.bank1.barclays.com:
+    container_name: peer0.bank1.barclays.com
+    extends:
+      file: base.yaml
+      service: peer-base
+    environment:
+      - FABRIC_LOGGING_SPEC=info
+      - ORDERER_GENERAL_LOGLEVEL=info
+      - CORE_PEER_LOCALMSPID=Bank1MSP
+
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=artifacts_test
+
+      - CORE_PEER_ID=peer0.bank1.barclays.com
+      - CORE_PEER_ADDRESS=peer0.bank1.barclays.com:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.bank1.barclays.com:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      # Peer used to bootstrap gossip within organisation
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.bank2.barclays.com
+      # Exposed for discovery Service
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.bank1.barclays.com:7051
+
+      # - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9440
+
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb0:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+      - CORE_METRICS_PROVIDER=prometheus
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/crypto/peer/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/crypto/peer/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/crypto/peer/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/crypto/peer/msp
+    depends_on:
+      - couchdb0
+    ports:
+      - 7051:7051
+    volumes:
+      - ./crypto-config/peerOrganizations/bank1.barclays.com/peers/peer0.bank1.barclays.com/msp:/etc/hyperledger/crypto/peer/msp
+      - ./crypto-config/peerOrganizations/bank1.barclays.com/peers/peer0.bank1.barclays.com/tls:/etc/hyperledger/crypto/peer/tls
+      - /var/run/:/host/var/run/
+      - ./:/etc/hyperledger/channel/
+    networks:
+      - test
+
+  peer0.bank2.barclays.com:
+    container_name: peer0.bank2.barclays.com
+    extends:
+      file: base.yaml
+      service: peer-base
+    environment:
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - ORDERER_GENERAL_LOGLEVEL=info
+      - CORE_PEER_LOCALMSPID=Bank1MSP
+
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=artifacts_test
+
+      - CORE_PEER_ID=peer0.bank2.barclays.com
+      - CORE_PEER_ADDRESS=peer0.bank2.barclays.com
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.bank2.barclays.com:8052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
+      # Exposed for discovery Service
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.bank2.barclays.com
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.bank2.barclays.com:7051
+
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+      - CORE_METRICS_PROVIDER=prometheus
+      # - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9440
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/crypto/peer/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/crypto/peer/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/crypto/peer/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/crypto/peer/msp
+    ports:
+      - 8051:8051
+    volumes:
+      - ./crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/msp:/etc/hyperledger/crypto/peer/msp
+      - ./crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/tls:/etc/hyperledger/crypto/peer/tls
+      - /var/run/:/host/var/run/
+      - ./:/etc/hyperledger/channel/
+    networks:
+      - test
+
+peer0.nonbank.barclays.com:
+    container_name: peer0.nonbank.barclays.com
+    extends:
+      file: base.yaml
+      service: peer-base
+    environment:
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - ORDERER_GENERAL_LOGLEVEL=info
+      - CORE_PEER_LOCALMSPID=Bank1MSP
+
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=artifacts_test
+
+      - CORE_PEER_ID=peer0.nonbank.barclays.com
+      - CORE_PEER_ADDRESS=peer0.nonbank.barclays.com
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.nonbank.barclays.com:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      # Exposed for discovery Service
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.nonbank.barclays.com
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.nonbank.barclays.com:7051
+
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+      - CORE_METRICS_PROVIDER=prometheus
+      # - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9440
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/crypto/peer/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/crypto/peer/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/crypto/peer/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/crypto/peer/msp
+    ports:
+      - 9051:9051
+    volumes:
+      - ./crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.nonbank.barclays.com/msp:/etc/hyperledger/crypto/peer/msp
+      - ./crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.nonbank.barclays.com/tls:/etc/hyperledger/crypto/peer/tls
+      - /var/run/:/host/var/run/
+      - ./:/etc/hyperledger/channel/
+    networks:
+      - test
+
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools
+    tty: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_LOGGING_LEVEL=DEBUG
+      - CORE_PEER_ID=cli
+      - CORE_PEER_ADDRESS=peer0.bank1.barclays.com:7051
+      - CORE_PEER_LOCALMSPID=Bank1MSP
+      # - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/channel/crypto-config/Bank1MSP
+
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/channel/crypto-config/peerOrganizations/bank1.barclays.com/peers/peer0.bank1.barclays.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/channel/crypto-config/peerOrganizations/bank1.barclays.com/peers/peer0.bank1.barclays.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/channel/crypto-config/peerOrganizations/bank1.barclays.com/peers/peer0.bank1.barclays.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/channel/crypto-config/peerOrganizations/bank1.barclays.com/users/Admin@bank1.barclays.com/msp
+
+      - CORE_CHAINCODE_KEEPALIVE=10 
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    networks:
+      - test
+    volumes:
+      - /var/run/:/host/var/run/
+      # - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./crypto-config/peerOrganizations/bank1.barclays.com/:/etc/hyperledger/channel/crypto-config/peerOrganizations/bank1.barclays.com/
+      - ./../vm2/crypto-config/peerOrganizations/financer1.barclays.com/:/etc/hyperledger/channel/crypto-config/peerOrganizations/financer1.barclays.com/
+      - ./../vm3/crypto-config/peerOrganizations/supplier1.barclays.com/:/etc/hyperledger/channel/crypto-config/peerOrganizations/supplier1.barclays.com/
+      - ./../vm4/crypto-config/ordererOrganizations/barclays.com/:/etc/hyperledger/channel/crypto-config/ordererOrganizations/barclays.com/

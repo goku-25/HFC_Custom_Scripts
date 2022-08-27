@@ -1,0 +1,56 @@
+
+OrdererOrgs:
+  - Name: Orderer
+    Domain: barclays.com
+    EnableNodeOUs: true
+
+    Specs:
+      - Hostname: orderer
+        SANS:
+            - "localhost"
+            - "127.0.0.1"
+      - Hostname: orderer2
+        SANS:
+          - "localhost"
+          - "127.0.0.1"
+      - Hostname: orderer3
+        SANS:
+            - "localhost"
+            - "127.0.0.1"
+
+PeerOrgs:
+  - Name: Bank1
+    Domain: bank1.barclays.com
+    EnableNodeOUs: true
+
+    Template:
+      Count: 1
+      SANS:
+        - "localhost"
+
+    Users:
+      Count: 1
+
+  - Name: Bank2
+    Domain: bank2.barclays.com
+    EnableNodeOUs: true
+
+    Template:
+      Count: 1
+      SANS:
+        - "localhost"
+
+    Users:
+      Count: 1
+
+  - Name: Nonbank
+    Domain: nonbank.barclays.com
+    EnableNodeOUs: true
+
+    Template:
+      Count: 1
+      SANS:
+        - "localhost"
+
+    Users:
+      Count: 1

@@ -1,0 +1,214 @@
+Organizations:
+
+    - &OrdererOrg
+        Name: OrdererOrg
+        ID: OrdererMSP
+        MSPDir: ../../orgs/crypto-config/ordererOrganizations/barclays.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('OrdererMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('OrdererMSP.admin')"
+
+    - &Bank1
+        Name: Bank1MSP
+        ID: Bank1MSP
+
+        MSPDir: ../../orgs/crypto-config/peerOrganizations/bank1.barclays.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('Bank1MSP.admin', 'Bank1MSP.peer', 'Bank1MSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('Bank1MSP.admin', 'Bank1MSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('Bank1MSP.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('Bank1MSP.peer')"
+
+        AnchorPeers:
+            - Host: peer0.bank1.barclays.com
+              Port: 7051
+
+    - &Bank2
+        Name: Bank2MSP
+
+        ID: Bank2MSP
+
+        MSPDir: ../../orgs/crypto-config/peerOrganizations/bank2.barclays.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('Bank2MSP.admin', 'Bank2MSP.peer', 'Bank2MSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('Bank2MSP.admin', 'Bank2MSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('Bank2MSP.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('Bank2MSP.peer')"
+
+        AnchorPeers:
+            - Host: peer0.bank2.barclays.com
+              Port: 9051
+
+    - &Nonbank
+        Name: NonbankMSP
+
+        ID: NonbankMSP
+
+        MSPDir: ../../orgs/crypto-config/peerOrganizations/nonbank.barclays.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('NonbankMSP.admin', 'NonbankMSP.peer', 'NonbankMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('NonbankMSP.admin', 'NonbankMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('NonbankMSP.admin')"
+            Endorsement:
+                Type: Signature
+                Rule: "OR('NonbankMSP.peer')"
+
+        AnchorPeers:
+            - Host: peer0.nonbank.barclays.com
+              Port: 11051
+
+Capabilities:
+    Channel: &ChannelCapabilities
+        V2_0: true
+
+    Orderer: &OrdererCapabilities
+        V2_0: true
+
+    Application: &ApplicationCapabilities
+        V2_0: true
+
+Application: &ApplicationDefaults
+
+    Organizations:
+
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        LifecycleEndorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+        Endorsement:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Endorsement"
+
+    Capabilities:
+        <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+
+    OrdererType: etcdraft
+
+    EtcdRaft:
+        Consenters:
+        - Host: orderer.barclays.com
+          Port: 7050
+          ClientTLSCert: ../../orgs/crypto-config/ordererOrganizations/barclays.com/orderers/orderer.barclays.com/tls/server.crt
+          ServerTLSCert: ../../orgs/crypto-config/ordererOrganizations/barclays.com/orderers/orderer.barclays.com/tls/server.crt
+    Addresses:
+        - orderer.barclays.com:7050
+
+    BatchTimeout: 2s
+    BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 99 MB
+        PreferredMaxBytes: 512 KB
+
+    Organizations:
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+
+Channel: &ChannelDefaults
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+
+    Capabilities:
+        <<: *ChannelCapabilities
+
+Profiles:
+
+    BasicChannel:
+        Consortium: SampleConsortium
+        <<: *ChannelDefaults
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Bank1
+                - *Bank2
+                - *Nonbank
+            Capabilities:
+                <<: *ApplicationCapabilities
+
+    OrdererGenesis:
+        <<: *ChannelDefaults
+        Capabilities:
+            <<: *ChannelCapabilities
+        Orderer:
+            <<: *OrdererDefaults
+            OrdererType: etcdraft
+            EtcdRaft:
+                Consenters:
+                - Host: orderer.barclays.com
+                  Port: 7050
+                  ClientTLSCert: ../../orgs/crypto-config/ordererOrganizations/barclays.com/orderers/orderer.barclays.com/tls/server.crt
+                  ServerTLSCert: ../../orgs/crypto-config/ordererOrganizations/barclays.com/orderers/orderer.barclays.com/tls/server.crt
+            Addresses:
+                - orderer.barclays.com:7050
+            Organizations:
+            - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                - *Bank1
+                - *Bank2
+                - *Nonbank
