@@ -100,7 +100,7 @@ services:
       - CORE_PEER_CHAINCODEADDRESS=peer0.bank1.barclays.com:7052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
       # Peer used to bootstrap gossip within organisation
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.bank2.barclays.com
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.bank2.barclays.com
       # Exposed for discovery Service
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.bank1.barclays.com:7051
 
@@ -128,8 +128,8 @@ services:
     networks:
       - test
 
-  peer0.bank2.barclays.com:
-    container_name: peer0.bank2.barclays.com
+  peer1.bank2.barclays.com:
+    container_name: peer1.bank2.barclays.com
     extends:
       file: base.yaml
       service: peer-base
@@ -140,14 +140,14 @@ services:
 
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=artifacts_test
 
-      - CORE_PEER_ID=peer0.bank2.barclays.com
-      - CORE_PEER_ADDRESS=peer0.bank2.barclays.com
+      - CORE_PEER_ID=peer1.bank2.barclays.com
+      - CORE_PEER_ADDRESS=peer1.bank2.barclays.com
       - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.bank2.barclays.com:8052
+      - CORE_PEER_CHAINCODEADDRESS=peer1.bank2.barclays.com:8052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
       # Exposed for discovery Service
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.bank2.barclays.com
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.bank2.barclays.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.bank2.barclays.com
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.bank2.barclays.com:7051
 
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
@@ -170,8 +170,8 @@ services:
     networks:
       - test
 
-  peer0.nonbank.barclays.com:
-    container_name: peer0.nonbank.barclays.com
+  peer2.nonbank.barclays.com:
+    container_name: peer2.nonbank.barclays.com
     extends:
       file: base.yaml
       service: peer-base
@@ -182,14 +182,14 @@ services:
 
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=artifacts_test
 
-      - CORE_PEER_ID=peer0.nonbank.barclays.com
-      - CORE_PEER_ADDRESS=peer0.nonbank.barclays.com
+      - CORE_PEER_ID=peer2.nonbank.barclays.com
+      - CORE_PEER_ADDRESS=peer2.nonbank.barclays.com
       - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.nonbank.barclays.com:9052
+      - CORE_PEER_CHAINCODEADDRESS=peer2.nonbank.barclays.com:9052
       - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
       # Exposed for discovery Service
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.nonbank.barclays.com
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.nonbank.barclays.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.nonbank.barclays.com
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer2.nonbank.barclays.com:7051
 
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
