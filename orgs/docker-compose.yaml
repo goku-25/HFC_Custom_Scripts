@@ -205,8 +205,8 @@ services:
     ports:
       - 9051:9051
     volumes:
-      - ./crypto-config/peerOrganizations/bank2.barclays.com/peers/peer2.nonbank.barclays.com/msp:/etc/hyperledger/crypto/peer/msp
-      - ./crypto-config/peerOrganizations/bank2.barclays.com/peers/peer2.nonbank.barclays.com/tls:/etc/hyperledger/crypto/peer/tls
+      - ./crypto-config/peerOrganizations/nonbank.barclays.com/peers/peer2.nonbank.barclays.com/msp:/etc/hyperledger/crypto/peer/msp
+      - ./crypto-config/peerOrganizations/nonbank.barclays.com/peers/peer2.nonbank.barclays.com/tls:/etc/hyperledger/crypto/peer/tls
       - /var/run/:/host/var/run/
       - ./:/etc/hyperledger/channel/
     networks:
