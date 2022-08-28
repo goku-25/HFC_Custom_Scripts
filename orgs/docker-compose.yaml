@@ -134,9 +134,9 @@ services:
       file: base.yaml
       service: peer-base
     environment:
-      - FABRIC_LOGGING_SPEC=DEBUG
+      - FABRIC_LOGGING_SPEC=info
       - ORDERER_GENERAL_LOGLEVEL=info
-      - CORE_PEER_LOCALMSPID=Bank1MSP
+      - CORE_PEER_LOCALMSPID=Bank2MSP
 
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=artifacts_test
 
@@ -176,9 +176,9 @@ services:
       file: base.yaml
       service: peer-base
     environment:
-      - FABRIC_LOGGING_SPEC=DEBUG
+      - FABRIC_LOGGING_SPEC=info
       - ORDERER_GENERAL_LOGLEVEL=info
-      - CORE_PEER_LOCALMSPID=Bank1MSP
+      - CORE_PEER_LOCALMSPID=NonbankMSP
 
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=artifacts_test
 
