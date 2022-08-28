@@ -1,5 +1,5 @@
 export CORE_PEER_TLS_ENABLED=true
-export ORDERER_CA=${PWD}./crypto-config/ordererOrganizations/barclays.com/orderers/orderer.barclays.com/msp/tlscacerts/tlsca.barclays.com-cert.pem
+export ORDERER_CA=${PWD}/crypto-config/ordererOrganizations/barclays.com/orderers/orderer.barclays.com/msp/tlscacerts/tlsca.barclays.com-cert.pem
 export PEER0_ORG1_CA=${PWD}/crypto-config/peerOrganizations/bank1.barclays.com/peers/peer0.bank1.barclays.com/tls/ca.crt
 export FABRIC_CFG_PATH=${PWD}/../artifacts/channel/config/
 
