@@ -8,7 +8,7 @@ export CHANNEL_NAME=channelcbdc
 setGlobalsForPeer0Org1(){
     export CORE_PEER_LOCALMSPID="Bank1MSP"
     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG1_CA
-    export CORE_PEER_MSPCONFIGPATH=${PWD}/crypto-config/peerOrganizations/bank1.barclays.com/users/Admin@bank1.barclays.com/msp
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/orgs/crypto-config/peerOrganizations/bank1.barclays.com/users/Admin@bank1.barclays.com/msp
     export CORE_PEER_ADDRESS=localhost:7051
 }
 
