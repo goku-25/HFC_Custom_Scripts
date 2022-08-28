@@ -39,7 +39,7 @@ createCertificateForOrg2() {
   echo "Register user"
   echo
 
-  fabric-ca-client register --caname ca.bank2.barclays.com --id.name user2 --id.secret user2pw --id.type client --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
+  fabric-ca-client register --caname ca.bank2.barclays.com --id.name user1 --id.secret user1pw --id.type client --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
 
   echo
   echo "Register the org admin"
@@ -107,7 +107,7 @@ createCertificateForOrg2() {
   echo "## Generate the user msp"
   echo
 
-  fabric-ca-client enroll -u https://user2:user2pw@localhost:8054 --caname ca.bank2.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/users/User1@bank2.barclays.com/msp --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
+  fabric-ca-client enroll -u https://user1:user1pw@localhost:8054 --caname ca.bank2.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/users/User1@bank2.barclays.com/msp --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
 
   mkdir -p ../crypto-config/peerOrganizations/bank2.barclays.com/users/Admin@bank2.barclays.com
 
