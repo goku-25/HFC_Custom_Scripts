@@ -63,7 +63,7 @@ Organizations:
 
         AnchorPeers:
             - Host: peer0.bank2.barclays.com
-              Port: 9051
+              Port: 8051
 
     - &Nonbank
         Name: NonbankMSP
@@ -88,7 +88,7 @@ Organizations:
 
         AnchorPeers:
             - Host: peer0.nonbank.barclays.com
-              Port: 11051
+              Port: 9051
 
 Capabilities:
     Channel: &ChannelCapabilities
