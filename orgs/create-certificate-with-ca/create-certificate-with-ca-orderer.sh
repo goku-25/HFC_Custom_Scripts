@@ -11,16 +11,16 @@ createCretificateForOrderer() {
   echo 'NodeOUs:
   Enable: true
   ClientOUIdentifier:
-    Certificate: cacerts/localhost-7054-ca-orderer.pem
+    Certificate: cacerts/localhost-7054-ca-bank1-barclays-com.pem
     OrganizationalUnitIdentifier: client
   PeerOUIdentifier:
-    Certificate: cacerts/localhost-7054-ca-orderer.pem
+    Certificate: cacerts/llocalhost-7054-ca-bank1-barclays-com.pem
     OrganizationalUnitIdentifier: peer
   AdminOUIdentifier:
-    Certificate: cacerts/localhost-7054-ca-orderer.pem
+    Certificate: cacerts/localhost-7054-ca-bank1-barclays-com.pem
     OrganizationalUnitIdentifier: admin
   OrdererOUIdentifier:
-    Certificate: cacerts/localhost-7054-ca-orderer.pem
+    Certificate: cacerts/localhost-7054-ca-bank1-barclays-com.pem
     OrganizationalUnitIdentifier: orderer' >${PWD}/../crypto-config/ordererOrganizations/barclays.com/msp/config.yaml
 
   echo
