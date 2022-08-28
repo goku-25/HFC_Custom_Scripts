@@ -51,7 +51,7 @@ joinChannel(){
     setGlobalsForPeer0Bank1
     peer channel join -b ./channel-artifacts/$CHANNEL_NAME.block
     
-    setGlobalsForPeer1Bank2
+    setGlobalsForPeer0Bank2
     peer channel join -b ./channel-artifacts/$CHANNEL_NAME.block
 
     setGlobalsForPeer0NonBank
