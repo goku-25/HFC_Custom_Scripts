@@ -3,7 +3,7 @@ export ORDERER_CA=${PWD}/crypto-config/ordererOrganizations/barclays.com/orderer
 export PEER0_ORG1_CA=${PWD}/crypto-config/peerOrganizations/bank1.barclays.com/peers/peer0.bank1.barclays.com/tls/ca.crt
 export FABRIC_CFG_PATH=${PWD}/../artifacts/channel/config/
 
-export CHANNEL_NAME=mychannel
+export CHANNEL_NAME=channelcbdc
 
 setGlobalsForPeer0Org1(){
     export CORE_PEER_LOCALMSPID="Bank1MSP"

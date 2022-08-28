@@ -23,7 +23,7 @@ configtxgen -profile OrdererGenesis -configPath . -channelID $SYS_CHANNEL  -outp
 
 
 # Generate channel configuration block
-configtxgen -profile BasicChannel -configPath . -outputCreateChannelTx ./mychannel.tx -channelID $CHANNEL_NAME
+configtxgen -profile BasicChannel -configPath . -outputCreateChannelTx ./channelcbdc.tx -channelID $CHANNEL_NAME
 
 echo "#######    Generating anchor peer update for Bank1MSP  ##########"
 configtxgen -profile BasicChannel -configPath . -outputAnchorPeersUpdate ./Bank1MSPanchors.tx -channelID $CHANNEL_NAME -asOrg Bank1MSP
