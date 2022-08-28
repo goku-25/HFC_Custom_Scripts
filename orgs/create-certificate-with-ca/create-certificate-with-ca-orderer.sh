@@ -14,7 +14,7 @@ createCretificateForOrderer() {
     Certificate: cacerts/localhost-7054-ca-bank1-barclays-com.pem
     OrganizationalUnitIdentifier: client
   PeerOUIdentifier:
-    Certificate: cacerts/llocalhost-7054-ca-bank1-barclays-com.pem
+    Certificate: cacerts/localhost-7054-ca-bank1-barclays-com.pem
     OrganizationalUnitIdentifier: peer
   AdminOUIdentifier:
     Certificate: cacerts/localhost-7054-ca-bank1-barclays-com.pem
