@@ -240,6 +240,6 @@ services:
       - /var/run/:/host/var/run/
       # - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
       - ./crypto-config/peerOrganizations/bank1.barclays.com/:/etc/hyperledger/channel/crypto-config/peerOrganizations/bank1.barclays.com/
-      - ./crypto-config/peerOrganizations/financer1.barclays.com/:/etc/hyperledger/channel/crypto-config/peerOrganizations/financer1.barclays.com/
-      - ./crypto-config/peerOrganizations/supplier1.barclays.com/:/etc/hyperledger/channel/crypto-config/peerOrganizations/supplier1.barclays.com/
+      - ./crypto-config/peerOrganizations/bank2.barclays.com/:/etc/hyperledger/channel/crypto-config/peerOrganizations/bank2.barclays.com/
+      - ./crypto-config/peerOrganizations/nonbank.barclays.com/:/etc/hyperledger/channel/crypto-config/peerOrganizations/nonbank.barclays.com/
       - ./crypto-config/ordererOrganizations/barclays.com/:/etc/hyperledger/channel/crypto-config/ordererOrganizations/barclays.com/
