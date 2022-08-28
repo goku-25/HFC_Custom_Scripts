@@ -62,7 +62,7 @@ Organizations:
                 Rule: "OR('Bank2MSP.peer')"
 
         AnchorPeers:
-            - Host: peer1.bank2.barclays.com
+            - Host: peer0.bank2.barclays.com
               Port: 8051
 
     - &Nonbank
@@ -87,7 +87,7 @@ Organizations:
                 Rule: "OR('NonbankMSP.peer')"
 
         AnchorPeers:
-            - Host: peer2.nonbank.barclays.com
+            - Host: peer0.nonbank.barclays.com
               Port: 9051
 
 Capabilities:
