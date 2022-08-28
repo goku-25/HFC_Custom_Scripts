@@ -27,25 +27,25 @@ createCertificateForOrg2() {
   echo "Register peer0"
   echo
 
-  fabric-ca-client register --caname ca.bank1.barclays.com --id.name peer0 --id.secret peer0pw --id.type peer --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
+  fabric-ca-client register --caname ca.bank1.barclays.com --id.name peer0 --id.secret peer0pw --id.type peer --tls.certfiles ${PWD}/fabric-ca/bank1/tls-cert.pem
 
 #   echo
 #   echo "Register peer1"
 #   echo
 
-#   fabric-ca-client register --caname ca.bank1.barclays.com --id.name peer1 --id.secret peer1pw --id.type peer --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
+#   fabric-ca-client register --caname ca.bank1.barclays.com --id.name peer1 --id.secret peer1pw --id.type peer --tls.certfiles ${PWD}/fabric-ca/bank1/tls-cert.pem
 
   echo
   echo "Register user"
   echo
 
-  fabric-ca-client register --caname ca.bank1.barclays.com --id.name user1 --id.secret user1pw --id.type client --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
+  fabric-ca-client register --caname ca.bank1.barclays.com --id.name user1 --id.secret user1pw --id.type client --tls.certfiles ${PWD}/fabric-ca/bank1/tls-cert.pem
 
   echo
   echo "Register the org admin"
   echo
 
-  fabric-ca-client register --caname ca.bank1.barclays.com --id.name bank2admin --id.secret bank2adminpw --id.type admin --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
+  fabric-ca-client register --caname ca.bank1.barclays.com --id.name bank2admin --id.secret bank2adminpw --id.type admin --tls.certfiles ${PWD}/fabric-ca/bank1/tls-cert.pem
 
   mkdir -p ../crypto-config/peerOrganizations/bank2.barclays.com/peers
   mkdir -p ../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com
@@ -56,7 +56,7 @@ createCertificateForOrg2() {
   echo "## Generate the peer0 msp"
   echo
 
-  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:8054 --caname ca.bank1.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/msp --csr.hosts peer0.bank2.barclays.com --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
+  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:8054 --caname ca.bank1.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/msp --csr.hosts peer0.bank2.barclays.com --tls.certfiles ${PWD}/fabric-ca/bank1/tls-cert.pem
 
   cp ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/msp/config.yaml ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/msp/config.yaml
 
@@ -64,7 +64,7 @@ createCertificateForOrg2() {
   echo "## Generate the peer0-tls certificates"
   echo
 
-  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:8054 --caname ca.bank1.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/tls --enrollment.profile tls --csr.hosts peer0.bank2.barclays.com --csr.hosts localhost --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
+  fabric-ca-client enroll -u https://peer0:peer0pw@localhost:8054 --caname ca.bank1.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/tls --enrollment.profile tls --csr.hosts peer0.bank2.barclays.com --csr.hosts localhost --tls.certfiles ${PWD}/fabric-ca/bank1/tls-cert.pem
 
   cp ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/tls/tlscacerts/* ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/tls/ca.crt
   cp ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/tls/signcerts/* ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/tls/server.crt
@@ -85,7 +85,7 @@ createCertificateForOrg2() {
 #   echo "## Generate the peer1 msp"
 #   echo
 
-#   fabric-ca-client enroll -u https://peer1:peer1pw@localhost:8054 --caname ca.bank1.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/msp --csr.hosts peer1.bank2.barclays.com --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
+#   fabric-ca-client enroll -u https://peer1:peer1pw@localhost:8054 --caname ca.bank1.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/msp --csr.hosts peer1.bank2.barclays.com --tls.certfiles ${PWD}/fabric-ca/bank1/tls-cert.pem
 
 #   cp ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/msp/config.yaml ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/msp/config.yaml
 
@@ -93,7 +93,7 @@ createCertificateForOrg2() {
 #   echo "## Generate the peer1-tls certificates"
 #   echo
 
-#   fabric-ca-client enroll -u https://peer1:peer1pw@localhost:8054 --caname ca.bank1.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/tls --enrollment.profile tls --csr.hosts peer1.bank2.barclays.com --csr.hosts localhost --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
+#   fabric-ca-client enroll -u https://peer1:peer1pw@localhost:8054 --caname ca.bank1.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/tls --enrollment.profile tls --csr.hosts peer1.bank2.barclays.com --csr.hosts localhost --tls.certfiles ${PWD}/fabric-ca/bank1/tls-cert.pem
 
 #   cp ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/tls/tlscacerts/* ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/tls/ca.crt
 #   cp ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/tls/signcerts/* ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/tls/server.crt
@@ -107,7 +107,7 @@ createCertificateForOrg2() {
   echo "## Generate the user msp"
   echo
 
-  fabric-ca-client enroll -u https://user1:user1pw@localhost:8054 --caname ca.bank1.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/users/User1@bank2.barclays.com/msp --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
+  fabric-ca-client enroll -u https://user1:user1pw@localhost:8054 --caname ca.bank1.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/users/User1@bank2.barclays.com/msp --tls.certfiles ${PWD}/fabric-ca/bank1/tls-cert.pem
 
   mkdir -p ../crypto-config/peerOrganizations/bank2.barclays.com/users/Admin@bank2.barclays.com
 
@@ -115,7 +115,7 @@ createCertificateForOrg2() {
   echo "## Generate the org admin msp"
   echo
 
-  fabric-ca-client enroll -u https://bank2admin:bank2adminpw@localhost:8054 --caname ca.bank1.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/users/Admin@bank2.barclays.com/msp --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
+  fabric-ca-client enroll -u https://bank2admin:bank2adminpw@localhost:8054 --caname ca.bank1.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/users/Admin@bank2.barclays.com/msp --tls.certfiles ${PWD}/fabric-ca/bank1/tls-cert.pem
 
   cp ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/msp/config.yaml ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/users/Admin@bank2.barclays.com/msp/config.yaml
 
