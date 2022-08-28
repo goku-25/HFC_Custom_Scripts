@@ -46,7 +46,7 @@ joinChannel(){
 updateAnchorPeers(){
     setGlobalsForPeer0Org1
     # Replace localhost with your orderer's vm IP address
-    peer channel update -o localhost:7050 --ordererTLSHostnameOverride orderer.barclays.com -c $CHANNEL_NAME -f ./../../artifacts/channel/${CORE_PEER_LOCALMSPID}anchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA
+    peer channel update -o localhost:7050 --ordererTLSHostnameOverride orderer.barclays.com -c $CHANNEL_NAME -f ../artifacts/channel/${CORE_PEER_LOCALMSPID}anchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA
     
 }
 
