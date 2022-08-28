@@ -141,13 +141,13 @@ services:
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=artifacts_test
 
       - CORE_PEER_ID=peer0.bank2.barclays.com
-      - CORE_PEER_ADDRESS=peer0.bank2.barclays.com
-      - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.bank2.barclays.com:8052
-      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
+      - CORE_PEER_ADDRESS=peer0.bank2.barclays.com:9051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.org2.example.com:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
       # Exposed for discovery Service
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.bank2.barclays.com
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.bank2.barclays.com:8051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.bank2.barclays.com:9051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.bank2.barclays.com:10051
 
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
@@ -161,7 +161,7 @@ services:
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/crypto/peer/tls/ca.crt
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/crypto/peer/msp
     ports:
-      - 8051:8051
+      - 9051:9051
     volumes:
       - ./crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/msp:/etc/hyperledger/crypto/peer/msp
       - ./crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/tls:/etc/hyperledger/crypto/peer/tls
@@ -183,13 +183,13 @@ services:
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=artifacts_test
 
       - CORE_PEER_ID=peer0.nonbank.barclays.com
-      - CORE_PEER_ADDRESS=peer0.nonbank.barclays.com
-      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
-      - CORE_PEER_CHAINCODEADDRESS=peer0.nonbank.barclays.com:9052
-      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - CORE_PEER_ADDRESS=peer0.nonbank.barclays.com:11051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:11051
+      # - CORE_PEER_CHAINCODEADDRESS=peer0.nonbank.barclays.com:9052
+      # - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
       # Exposed for discovery Service
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.nonbank.barclays.com
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.nonbank.barclays.com:9051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.nonbank.barclays.com:11051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.nonbank.barclays.com:12051
 
       - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
       - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb1:5984
@@ -203,7 +203,7 @@ services:
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/crypto/peer/tls/ca.crt
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/crypto/peer/msp
     ports:
-      - 9051:9051
+      - 11051:11051
     volumes:
       - ./crypto-config/peerOrganizations/nonbank.barclays.com/peers/peer0.nonbank.barclays.com/msp:/etc/hyperledger/crypto/peer/msp
       - ./crypto-config/peerOrganizations/nonbank.barclays.com/peers/peer0.nonbank.barclays.com/tls:/etc/hyperledger/crypto/peer/tls
