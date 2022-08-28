@@ -5,13 +5,26 @@ export FABRIC_CFG_PATH=${PWD}/../artifacts/channel/config/
 
 export CHANNEL_NAME=channelcbdc
 
-setGlobalsForPeer0Org1(){
+setGlobalsForPeer0Bank1(){
     export CORE_PEER_LOCALMSPID="Bank1MSP"
     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG1_CA
     export CORE_PEER_MSPCONFIGPATH=${PWD}/crypto-config/peerOrganizations/bank1.barclays.com/users/Admin@bank1.barclays.com/msp
     export CORE_PEER_ADDRESS=localhost:7051
 }
 
+setGlobalsForPeer0Bank2(){
+    export CORE_PEER_LOCALMSPID="Bank2MSP"
+    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG1_CA
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/crypto-config/peerOrganizations/bank2.barclays.com/users/Admin@bank2.barclays.com/msp
+    export CORE_PEER_ADDRESS=localhost:9051
+}
+
+setGlobalsForPeer0NonBank(){
+    export CORE_PEER_LOCALMSPID="NonbankMSP"
+    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG1_CA
+    export CORE_PEER_MSPCONFIGPATH=${PWD}/crypto-config/peerOrganizations/nonbank.barclays.com/users/Admin@nonbank.barclays.com/msp
+    export CORE_PEER_ADDRESS=localhost:11051
+}
 # setGlobalsForPeer1Org1(){
 #     export CORE_PEER_LOCALMSPID="Bank1MSP"
 #     export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG1_CA
@@ -21,7 +34,7 @@ setGlobalsForPeer0Org1(){
 
 createChannel(){
     rm -rf ./channel-artifacts/*
-    setGlobalsForPeer0Org1
+    setGlobalsForPeer0Bank1
     
     # Replace localhost with your orderer's vm IP address
     peer channel create -o localhost:7050 -c $CHANNEL_NAME \
@@ -33,21 +46,29 @@ createChannel(){
 # createChannel
 
 joinChannel(){
-    setGlobalsForPeer0Org1
+    setGlobalsForPeer0Bank1
     peer channel join -b ./channel-artifacts/$CHANNEL_NAME.block
     
-    # setGlobalsForPeer1Org1
-    # peer channel join -b ./channel-artifacts/$CHANNEL_NAME.block
+    setGlobalsForPeer1Bank2
+    peer channel join -b ./channel-artifacts/$CHANNEL_NAME.block
+
+    setGlobalsForPeer0NonBank
+    peer channel join -b ./channel-artifacts/$CHANNEL_NAME.block
     
 }
 
 # joinChannel
 
 updateAnchorPeers(){
-    setGlobalsForPeer0Org1
+    setGlobalsForPeer0Bank1
     # Replace localhost with your orderer's vm IP address
     peer channel update -o localhost:7050 --ordererTLSHostnameOverride orderer.barclays.com -c $CHANNEL_NAME -f ../artifacts/channel/${CORE_PEER_LOCALMSPID}anchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA
     
+    setGlobalsForPeer0Bank2
+    peer channel update -o localhost:7050 --ordererTLSHostnameOverride orderer.barclays.com -c $CHANNEL_NAME -f ../artifacts/channel/${CORE_PEER_LOCALMSPID}anchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA
+
+    setGlobalsForPeer0NonBank
+    peer channel update -o localhost:7050 --ordererTLSHostnameOverride orderer.barclays.com -c $CHANNEL_NAME -f ../artifacts/channel/${CORE_PEER_LOCALMSPID}anchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA
 }
 
 # updateAnchorPeers
