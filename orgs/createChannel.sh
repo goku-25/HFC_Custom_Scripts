@@ -16,16 +16,16 @@ setGlobalsForPeer0Bank1(){
 
 setGlobalsForPeer0Bank2(){
     export CORE_PEER_LOCALMSPID="Bank2MSP"
-    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG1_CA
+    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG2_CA
     export CORE_PEER_MSPCONFIGPATH=${PWD}/crypto-config/peerOrganizations/bank2.barclays.com/users/Admin@bank2.barclays.com/msp
-    export CORE_PEER_ADDRESS=localhost:7051
+    export CORE_PEER_ADDRESS=localhost:8051
 }
 
 setGlobalsForPeer0NonBank(){
     export CORE_PEER_LOCALMSPID="NonbankMSP"
-    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG1_CA
+    export CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_ORG3_CA
     export CORE_PEER_MSPCONFIGPATH=${PWD}/crypto-config/peerOrganizations/nonbank.barclays.com/users/Admin@nonbank.barclays.com/msp
-    export CORE_PEER_ADDRESS=localhost:7051
+    export CORE_PEER_ADDRESS=localhost:9051
 }
 # setGlobalsForPeer1Org1(){
 #     export CORE_PEER_LOCALMSPID="Bank1MSP"
