@@ -29,11 +29,11 @@ createCertificateForOrg2() {
 
   fabric-ca-client register --caname ca.bank2.barclays.com --id.name peer0 --id.secret peer0pw --id.type peer --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
 
-#   echo
-#   echo "Register peer0"
-#   echo
+  # echo
+  # echo "Register peer1"
+  # echo
 
-#   fabric-ca-client register --caname ca.bank2.barclays.com --id.name peer0 --id.secret peer0pw --id.type peer --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
+  # fabric-ca-client register --caname ca.bank2.barclays.com --id.name peer1 --id.secret peer1pw --id.type peer --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
 
   echo
   echo "Register user"
@@ -81,23 +81,23 @@ createCertificateForOrg2() {
 
   # --------------------------------------------------------------------------------
   #  Peer 1
-#   echo
-#   echo "## Generate the peer0 msp"
-#   echo
+  # echo
+  # echo "## Generate the peer1 msp"
+  # echo
 
-#   fabric-ca-client enroll -u https://peer0:peer0pw@localhost:8054 --caname ca.bank2.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/msp --csr.hosts peer0.bank2.barclays.com --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
+  # fabric-ca-client enroll -u https://peer1:peer1pw@localhost:8054 --caname ca.bank2.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/msp --csr.hosts peer1.bank2.barclays.com --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
 
-#   cp ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/msp/config.yaml ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/msp/config.yaml
+  # cp ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/msp/config.yaml ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/msp/config.yaml
 
-#   echo
-#   echo "## Generate the peer0-tls certificates"
-#   echo
+  # echo
+  # echo "## Generate the peer1-tls certificates"
+  # echo
 
-#   fabric-ca-client enroll -u https://peer0:peer0pw@localhost:8054 --caname ca.bank2.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/tls --enrollment.profile tls --csr.hosts peer0.bank2.barclays.com --csr.hosts localhost --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
+  # fabric-ca-client enroll -u https://peer1:peer1pw@localhost:8054 --caname ca.bank2.barclays.com -M ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/tls --enrollment.profile tls --csr.hosts peer1.bank2.barclays.com --csr.hosts localhost --tls.certfiles ${PWD}/fabric-ca/bank2/tls-cert.pem
 
-#   cp ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/tls/tlscacerts/* ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/tls/ca.crt
-#   cp ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/tls/signcerts/* ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/tls/server.crt
-#   cp ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/tls/keystore/* ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer0.bank2.barclays.com/tls/server.key
+  # cp ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/tls/tlscacerts/* ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/tls/ca.crt
+  # cp ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/tls/signcerts/* ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/tls/server.crt
+  # cp ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/tls/keystore/* ${PWD}/../crypto-config/peerOrganizations/bank2.barclays.com/peers/peer1.bank2.barclays.com/tls/server.key
   # -----------------------------------------------------------------------------------
 
   mkdir -p ../crypto-config/peerOrganizations/bank2.barclays.com/users
